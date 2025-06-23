@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Purchases - Brand Bazaar</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      body {
+        background: #f6f8fb;
+        font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+        margin: 0;
+        color: #222;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 30px auto 0 auto;
+        padding: 0 20px;
+      }
+      .page-title {
+        font-size: 2rem;
+        color: #0a45a6;
+        font-weight: 800;
+        text-align: center;
+        margin: 32px 0 30px 0;
+        letter-spacing: 0.01em;
+      }
+      .purchases-list {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        margin: 0 auto 35px auto;
+        max-width: 800px;
+      }
+      .purchase-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 16px -7px #0a45a61a;
+        padding: 1.2rem 1.4rem 1.3rem 1.4rem;
+        border: 1.2px solid #e3e6ec;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: relative;
+      }
+      .purchase-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .purchase-id {
+        color: #0a45a6;
+        font-weight: 700;
+        font-size: 1.06rem;
+        letter-spacing: 0.03em;
+      }
+      .purchase-status {
+        color: #fff;
+        background: #0a45a6;
+        border-radius: 1em;
+        padding: 4px 18px;
+        font-size: 1.02rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        box-shadow: 0 2px 10px -6px #0a45a633;
+      }
+      .purchase-time {
+        color: #888;
+        font-size: 0.98rem;
+        margin-left: 10px;
+      }
+      .purchase-products {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin: 10px 0 2px 0;
+      }
+      .product-item {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: #f7fbff;
+        border-radius: 8px;
+        padding: 13px 14px;
+        box-shadow: 0 1px 4px -2px #0a45a611;
+      }
+      .product-img {
+        width: 55px;
+        height: 55px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #e3e9f2;
+        border: 1px solid #e3e9f2;
+      }
+      .product-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .product-name {
+        font-weight: 600;
+        color: #183e6e;
+        font-size: 1.07rem;
+        letter-spacing: 0.01em;
+      }
+      .product-qty {
+        font-size: 0.98rem;
+        color: #0a45a6;
+        font-weight: 500;
+      }
+      .product-price {
+        color: #0a45a6;
+        font-size: 1.08rem;
+        font-weight: 700;
+        margin-left: 4px;
+      }
+      .purchase-summary {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        margin-top: 14px;
+        font-size: 1.13rem;
+        font-weight: 600;
+        color: #183e6e;
+      }
+      .purchase-summary .label {
+        color: #666;
+        font-size: 1.01rem;
+        font-weight: 400;
+        margin-right: 7px;
+      }
+      .no-purchases {
+        text-align: center;
+        color: #888;
+        font-size: 1.3rem;
+        margin: 90px 0 60px 0;
+        font-weight: 600;
+      }
+      .purchase-address {
+        color: #555;
+        font-size: 1rem;
+        margin-top: 6px;
+        margin-bottom: 2px;
+      }
+      .purchase-payment {
+        color: #777;
+        font-size: 0.98rem;
+        margin-top: 0px;
+        margin-bottom: 0;
+      }
+      @media (max-width: 700px) {
+        .container {
+          padding: 16px 3vw;
+        }
+        .page-title {
+          font-size: 1.23rem;
+        }
+        .purchase-card {
+          padding: 1.05rem 0.8rem;
+        }
+        .purchases-list {
+          gap: 18px;
+        }
+        .product-img {
+          width: 38px;
+          height: 38px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="navbar"></div>
+    <div class="container">
+      <div class="page-title">
+        <i class="fas fa-shopping-bag"></i> All Purchases
+      </div>
+      <div class="purchases-list" id="purchasesList"></div>
+      <div id="noPurchases" class="no-purchases" style="display: none">
+        <i class="fas fa-shopping-bag"></i> You have not purchased anything
+        yet.<br />
+        <a
+          href="index.html"
+          style="color: #0a45a6; text-decoration: underline; font-weight: 500"
+          >Shop now</a
+        >
+      </div>
+    </div>
+    <script>
+      function getOrders() {
+        return JSON.parse(localStorage.getItem("orders") || "[]");
+      }
+
+      function renderPurchases() {
+        const orders = getOrders();
+        const purchasesList = document.getElementById("purchasesList");
+        const noPurchases = document.getElementById("noPurchases");
+
+        if (!orders.length) {
+          purchasesList.style.display = "none";
+          noPurchases.style.display = "";
+          return;
+        }
+        noPurchases.style.display = "none";
+        purchasesList.style.display = "";
+        purchasesList.innerHTML = orders
+          .map((order, idx) => {
+            // Get date only (not time) in DD/MM/YYYY format
+            let purchaseDate = "";
+            if (order.time) {
+              let d = new Date(order.time);
+              if (!isNaN(d.getTime())) {
+                purchaseDate = d.toLocaleDateString("en-GB");
+              } else {
+                purchaseDate = order.time;
+              }
+            }
+            return `
+          <div class="purchase-card">
+            <div class="purchase-header">
+              <span class="purchase-id"><i class="fas fa-shopping-bag"></i> Purchase #${
+                order.id || idx + 1
+              }</span>
+              <span class="purchase-status"><i class="fas fa-check-circle"></i> Completed</span>
+              <span class="purchase-time"><i class="fas fa-calendar-day"></i> ${purchaseDate}</span>
+            </div>
+            <div class="purchase-products">
+              ${order.cart
+                .map(
+                  (prod) => `
+                <div class="product-item">
+                  <img src="${prod.img}" class="product-img" alt="${prod.name}">
+                  <div class="product-details">
+                    <div class="product-name">${prod.name}</div>
+                    <div class="product-qty">Qty: ${prod.qty}</div>
+                    <div class="product-price">$${prod.price} each</div>
+                  </div>
+                </div>
+              `
+                )
+                .join("")}
+            </div>
+            <div class="purchase-summary">
+              <span class="label">Total:</span> $${order.total}
+            </div>
+            <div class="purchase-address">
+              <span class="label"><i class="fas fa-map-marker-alt"></i> Deliver to:</span>
+              ${
+                order.address
+                  ? `<b>${order.address.name}</b>, ${order.address.address}<br>${order.address.phone}`
+                  : ""
+              }
+            </div>
+            <div class="purchase-payment">
+              <span class="label"><i class="fas fa-credit-card"></i> Payment:</span> 
+              ${
+                order.paymentMethod === "cod"
+                  ? "Cash on Delivery (COD)"
+                  : order.paymentMethod === "upi"
+                  ? "UPI / Wallet / Net Banking"
+                  : "Debit / Credit Card"
+              }
+            </div>
+          </div>
+        `;
+          })
+          .join("");
+      }
+
+      renderPurchases();
+    </script>
+  </body>
+</html>

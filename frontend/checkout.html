@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Brand Bazaar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      :root {
+        --primary: #0a45a6;
+        --primary-dark: #093b8b;
+        --secondary: #233e61;
+        --light-bg: #f6f8fb;
+        --card-bg: #fff;
+        --border-color: #e3e6ec;
+        --success: #2ecc71;
+        --danger: #d60000;
+        --danger-dark: #a40000;
+        --text-light: #888;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: var(--light-bg);
+        color: var(--secondary);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .page-header {
+        text-align: center;
+        margin: 30px 0 40px;
+      }
+
+      .page-header h1 {
+        color: var(--primary);
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .page-header p {
+        color: var(--secondary);
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .checkout-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-bottom: 50px;
+      }
+
+      .checkout-column {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .section-card {
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 5px 20px -10px #0a45a618;
+        padding: 30px;
+        margin-bottom: 25px;
+        border: 1px solid var(--border-color);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eef2f7;
+      }
+
+      .section-header i {
+        background: #eaf3ff;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        font-size: 1.2rem;
+        margin-right: 15px;
+      }
+
+      .section-header h2 {
+        color: var(--primary);
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+
+      /* Address Section */
+      .address-details {
+        padding: 20px;
+        background: #f8fafd;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px -6px #0a45a611;
+        border: 1.2px solid var(--border-color);
+        line-height: 1.7;
+      }
+
+      .address-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+      }
+
+      .address-btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .edit-address-btn {
+        background: #eaf3ff;
+        color: var(--primary);
+        border: 1px solid #c9e0fc;
+      }
+
+      .edit-address-btn:hover {
+        background: #d8e7ff;
+      }
+
+      .delete-address-btn {
+        background: #fff0f0;
+        color: var(--danger);
+        border: 1px solid #ffd1d1;
+      }
+
+      .delete-address-btn:hover {
+        background: #ffe0e0;
+      }
+
+      .edit-address-form {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eef2f7;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--secondary);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 14px;
+        border: 1.3px solid #c9e0fc;
+        border-radius: 8px;
+        font-size: 1rem;
+        background: #fafdff;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(10, 69, 166, 0.1);
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .btn {
+        padding: 14px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1rem;
+        border: none;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+      }
+
+      .btn-outline:hover {
+        background: #eaf3ff;
+      }
+
+      /* Cart Section */
+      .cart-items {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .cart-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background: #f7fbff;
+        border-radius: 12px;
+      }
+
+      .cart-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 10px;
+        margin-right: 20px;
+        background: #e3e9f2;
+        object-fit: cover;
+        border: 1.2px solid #e6ecf3;
+        flex-shrink: 0;
+      }
+
+      .cart-item-details {
+        flex-grow: 1;
+      }
+
+      .cart-item-name {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: var(--secondary);
+      }
+
+      .cart-item-price {
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .cart-item-quantity {
+        font-size: 0.95rem;
+        color: var(--text-light);
+      }
+
+      /* Order Summary */
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px dashed #eef2f7;
+      }
+
+      .summary-item.total {
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: var(--primary);
+        border-bottom: none;
+        padding-top: 18px;
+        margin-top: 5px;
+      }
+
+      .pay-btn {
+        width: 100%;
+        padding: 18px;
+        font-size: 1.2rem;
+        background: var(--primary);
+        color: #fff;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        margin-top: 25px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        box-shadow: 0 5px 15px -5px #0a45a622;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .pay-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px -5px #0a45a622;
+      }
+
+      /* Snackbar */
+      #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 8px;
+        padding: 18px;
+        position: fixed;
+        z-index: 99;
+        left: 50%;
+        bottom: 40px;
+        font-size: 1.1rem;
+        transform: translateX(-50%);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      #snackbar.show {
+        visibility: visible;
+        animation: fadein 0.3s, fadeout 0.5s 2.2s;
+      }
+
+      @keyframes fadein {
+        from {
+          bottom: 10px;
+          opacity: 0;
+        }
+        to {
+          bottom: 40px;
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeout {
+        from {
+          bottom: 40px;
+          opacity: 1;
+        }
+        to {
+          bottom: 10px;
+          opacity: 0;
+        }
+      }
+
+      /* Progress Bar */
+      .checkout-progress {
+        display: flex;
+        justify-content: space-between;
+        max-width: 800px;
+        margin: 0 auto 40px;
+        position: relative;
+      }
+
+      .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        flex: 1;
+      }
+
+      .step-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eaf3ff;
+        color: var(--primary);
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        border: 2px solid var(--primary);
+      }
+
+      .step-icon.active {
+        background: var(--primary);
+        color: white;
+      }
+
+      .step-label {
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .progress-bar {
+        position: absolute;
+        top: 25px;
+        left: 0;
+        height: 4px;
+        background: #eaf3ff;
+        width: 100%;
+        z-index: 1;
+      }
+
+      .progress-fill {
+        height: 100%;
+        width: 66%;
+        background: var(--primary);
+        transition: width 0.3s ease;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .checkout-container {
+          flex-direction: column;
+        }
+
+        .page-header h1 {
+          font-size: 2rem;
+        }
+
+        .section-card {
+          padding: 20px;
+        }
+
+        .address-actions {
+          flex-direction: column;
+        }
+
+        .address-btn {
+          justify-content: center;
+        }
+
+        .progress-step .step-label {
+          font-size: 0.85rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="brand"
+          ><i class="fas fa-gem"></i> Brand Bazaar</a
+        >
+        <button class="nav-toggle" id="navToggle" aria-label="Open Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="navLinks">
+          <a href="index.html">Home</a>
+          <a href="deals.html">Deals</a>
+          <a href="trending.html">Trending</a>
+          <a href="contact.html">Contact</a>
+          <div class="dropdown">
+            <button class="dropbtn" aria-haspopup="true">
+              <i class="fas fa-th-large"></i> Categories
+              <i class="fas fa-angle-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="laptops.html" class="category-link">Laptops</a>
+              <a href="mobiles.html" class="category-link">Mobiles</a>
+              <a href="gadgets.html" class="category-link">Gadgets</a>
+              <a href="shoes.html" class="category-link">Shoes</a>
+            </div>
+          </div>
+        </div>
+        <div class="nav-icons">
+          <form class="nav-search" id="navSearchForm" autocomplete="off">
+            <input
+              type="text"
+              id="navSearchInput"
+              placeholder="Search..."
+              aria-label="Search products, categories"
+            />
+            <button type="submit" class="nav-search-btn" title="Search">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+
+          <div class="dropdown">
+            <button
+              class="nav-icon dropbtn"
+              id="profileIcon"
+              aria-haspopup="true"
+              title="Profile"
+            >
+              <i class="fas fa-user"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="profile.html">My Profile</a>
+              <a href="myorders.html">My Orders</a>
+              <a href="order-details.html">Order Details</a>
+              <a href="purchase.html">Purchase History</a>
+              <a href="tracking.html">Track Order</a>
+              <a href="checkout.html">Checkout</a>
+            </div>
+          </div>
+
+          <a
+            href="wishlist.html"
+            class="nav-icon"
+            id="wishlistIcon"
+            title="Wishlist"
+          >
+            <i class="fas fa-heart"></i>
+            <span class="wishlist-count" id="wishlistCounter">0</span>
+          </a>
+
+          <a href="cart.html" class="nav-icon cart" id="cartIcon" title="Cart">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCounter">0</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- Progress Bar -->
+      <div class="checkout-progress">
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="progress-step">
+          <div class="step-icon">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <span class="step-label">Cart</span>
+        </div>
+        <div class="progress-step">
+          <div class="step-icon active">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <span class="step-label">Shipping</span>
+        </div>
+        <div class="progress-step">
+          <div class="step-icon">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <span class="step-label">Payment</span>
+        </div>
+      </div>
+
+      <div class="page-header">
+        <h1>Complete Your Purchase</h1>
+        <p>
+          Review your order details and shipping information before proceeding
+          to payment
+        </p>
+      </div>
+
+      <div class="checkout-container">
+        <div class="checkout-column">
+          <div class="section-card">
+            <div class="section-header">
+              <i class="fas fa-map-marker-alt"></i>
+              <h2>Shipping Information</h2>
+            </div>
+
+            <div class="address-details" id="addressDetails">
+              <p>
+                <strong>John Doe</strong><br />
+                123 Main Street, Apt 4B<br />
+                New York, NY 10001<br />
+                United States<br />
+                <i class="fas fa-phone"></i> (555) 123-4567
+              </p>
+            </div>
+
+            <div class="address-actions" id="addressActions">
+              <button
+                class="address-btn edit-address-btn"
+                id="editAddressBtn"
+                onclick="showEditAddress()"
+              >
+                <i class="fas fa-edit"></i> Edit Address
+              </button>
+              <button
+                class="address-btn delete-address-btn"
+                id="deleteAddressBtn"
+                onclick="deleteAddress()"
+              >
+                <i class="fas fa-trash-alt"></i> Delete Address
+              </button>
+            </div>
+
+            <form
+              class="edit-address-form"
+              id="editAddressForm"
+              onsubmit="saveAddress(event)"
+            >
+              <div class="form-group">
+                <label for="inputName">Full Name</label>
+                <input
+                  type="text"
+                  id="inputName"
+                  class="form-control"
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="inputAddress">Shipping Address</label>
+                <input
+                  type="text"
+                  id="inputAddress"
+                  class="form-control"
+                  placeholder="123 Main Street"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="inputPhone">Phone Number</label>
+                <input
+                  type="text"
+                  id="inputPhone"
+                  class="form-control"
+                  placeholder="(123) 456-7890"
+                  required
+                />
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  Save Address
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  onclick="cancelEditAddress()"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <i class="fas fa-shopping-bag"></i>
+              <h2>Your Items</h2>
+            </div>
+
+            <div class="cart-items" id="cartItems">
+              <!-- Cart items will be loaded here -->
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-column">
+          <div class="section-card">
+            <div class="section-header">
+              <i class="fas fa-receipt"></i>
+              <h2>Order Summary</h2>
+            </div>
+
+            <div class="order-summary" id="orderSummary">
+              <!-- Order summary will be loaded here -->
+            </div>
+
+            <button class="pay-btn" id="payBtn" onclick="gotoPaymentPage()">
+              <i class="fas fa-lock"></i> Complete Payment
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="snackbar"></div>
+
+    <script>
+      // Sample cart data
+      const cartItems = [
+        {
+          id: 1,
+          name: "Premium Wireless Headphones",
+          price: 129.99,
+          qty: 1,
+          img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aGVhZHBob25lc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
+        },
+        {
+          id: 2,
+          name: "Smart Watch Pro Series",
+          price: 199.99,
+          qty: 1,
+          img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c21hcnQlMjB3YXRjaHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
+        },
+        {
+          id: 3,
+          name: "Bluetooth Portable Speaker",
+          price: 89.99,
+          qty: 2,
+          img: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8c3BlYWtlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
+        },
+      ];
+
+      // DOM Elements
+      const cartItemsContainer = document.getElementById("cartItems");
+      const orderSummaryContainer = document.getElementById("orderSummary");
+      const addressDetails = document.getElementById("addressDetails");
+      const editAddressBtn = document.getElementById("editAddressBtn");
+      const deleteAddressBtn = document.getElementById("deleteAddressBtn");
+      const editAddressForm = document.getElementById("editAddressForm");
+
+      // Initialize page
+      function initPage() {
+        renderCartItems();
+        renderOrderSummary();
+        renderAddress();
+      }
+
+      // Render cart items
+      function renderCartItems() {
+        cartItemsContainer.innerHTML = "";
+
+        cartItems.forEach((item) => {
+          const cartItemElement = document.createElement("div");
+          cartItemElement.className = "cart-item";
+          cartItemElement.innerHTML = `
+          <img src="${item.img}" alt="${item.name}" class="cart-img">
+          <div class="cart-item-details">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+            <div class="cart-item-quantity">Qty: ${item.qty}</div>
+          </div>
+          <div class="cart-item-total">$${(item.price * item.qty).toFixed(
+            2
+          )}</div>
+        `;
+          cartItemsContainer.appendChild(cartItemElement);
+        });
+      }
+
+      // Render order summary
+      function renderOrderSummary() {
+        // Calculate totals
+        const subtotal = cartItems.reduce(
+          (sum, item) => sum + item.price * item.qty,
+          0
+        );
+        const shipping = subtotal > 100 ? 0 : 12.99;
+        const tax = subtotal * 0.08;
+        const discount = subtotal > 200 ? 25 : 0;
+        const total = subtotal + shipping + tax - discount;
+
+        orderSummaryContainer.innerHTML = `
+        <div class="summary-item">
+          <span>Subtotal (${cartItems.length} items)</span>
+          <span>$${subtotal.toFixed(2)}</span>
+        </div>
+        <div class="summary-item">
+          <span>Shipping</span>
+          <span>$${shipping.toFixed(2)}</span>
+        </div>
+        <div class="summary-item">
+          <span>Tax</span>
+          <span>$${tax.toFixed(2)}</span>
+        </div>
+        <div class="summary-item">
+          <span>Discount</span>
+          <span>-$${discount.toFixed(2)}</span>
+        </div>
+        <div class="summary-item total">
+          <span>Total</span>
+          <span>$${total.toFixed(2)}</span>
+        </div>
+      `;
+      }
+
+      // Render address
+      function renderAddress() {
+        addressDetails.innerHTML = `
+        <p><strong>John Doe</strong><br>
+        123 Main Street, Apt 4B<br>
+        New York, NY 10001<br>
+        United States<br>
+        <i class="fas fa-phone"></i> (555) 123-4567</p>
+      `;
+        editAddressForm.style.display = "none";
+        editAddressBtn.style.display = "flex";
+        deleteAddressBtn.style.display = "flex";
+      }
+
+      // Show edit address form
+      function showEditAddress() {
+        document.getElementById("inputName").value = "John Doe";
+        document.getElementById("inputAddress").value =
+          "123 Main Street, Apt 4B, New York, NY 10001, United States";
+        document.getElementById("inputPhone").value = "(555) 123-4567";
+        editAddressForm.style.display = "block";
+        editAddressBtn.style.display = "none";
+        deleteAddressBtn.style.display = "none";
+      }
+
+      // Cancel edit address
+      function cancelEditAddress() {
+        editAddressForm.style.display = "none";
+        editAddressBtn.style.display = "flex";
+        deleteAddressBtn.style.display = "flex";
+      }
+
+      // Save address
+      function saveAddress(e) {
+        e.preventDefault();
+        const name = document.getElementById("inputName").value.trim();
+        const address = document.getElementById("inputAddress").value.trim();
+        const phone = document.getElementById("inputPhone").value.trim();
+
+        if (!name || !address || !phone) {
+          showSnackbar("Please fill all address fields.");
+          return;
+        }
+
+        // Save address logic here...
+        showSnackbar("Address saved successfully!");
+        renderAddress();
+      }
+
+      // Delete address
+      function deleteAddress() {
+        if (confirm("Are you sure you want to delete this address?")) {
+          showSnackbar("Address deleted.");
+          // Actual delete logic would go here
+        }
+      }
+
+      // Go to payment page
+      function gotoPaymentPage() {
+        // Validate cart
+        if (!cartItems.length) {
+          showSnackbar(
+            "Your cart is empty. Please add items before proceeding."
+          );
+          return;
+        }
+
+        // Validate address
+        const name = document.getElementById("inputName").value.trim();
+        const address = document.getElementById("inputAddress").value.trim();
+        const phone = document.getElementById("inputPhone").value.trim();
+
+        if (!name || !address || !phone) {
+          showSnackbar("Please complete your shipping information.");
+          showEditAddress();
+          return;
+        }
+
+        // Redirect to payment page
+        showSnackbar("Redirecting to payment page...");
+        setTimeout(() => {
+          window.location.href = "payment.html";
+        }, 1500);
+      }
+
+      // Show snackbar notification
+      function showSnackbar(msg) {
+        const sb = document.getElementById("snackbar");
+        sb.textContent = msg;
+        sb.className = "show";
+        setTimeout(() => {
+          sb.className = sb.className.replace("show", "");
+        }, 2500);
+      }
+
+      // Initialize when page loads
+      document.addEventListener("DOMContentLoaded", initPage);
+    </script>
+  </body>
+</html>

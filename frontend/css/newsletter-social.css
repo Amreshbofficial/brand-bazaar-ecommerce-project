@@ -1,0 +1,77 @@
+.newsletter-social {
+  background: #2069d7;
+  color: #fff;
+  padding: 48px 0 35px 0;
+}
+.newsletter-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.newsletter,
+.social {
+  flex: 1;
+}
+.newsletter h4,
+.social h4 {
+  font-size: 1.1rem;
+  color: #cde0f5;
+}
+.newsletter h2,
+.social h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.newsletter p,
+.social p {
+  font-size: 0.97rem;
+  color: #cde0f5;
+  margin-bottom: 16px;
+}
+#newsletterForm {
+  display: flex;
+  align-items: center;
+  max-width: 440px;
+}
+#newsletterForm input[type="email"] {
+  flex: 1;
+  padding: 14px 18px;
+  border-radius: 28px 0 0 28px;
+  border: none;
+  font-size: 1.07rem;
+  outline: none;
+  background: #fff;
+  color: #222;
+}
+#newsletterForm button {
+  padding: 14px 28px;
+  background: #6ce217;
+  color: #fff;
+  border: none;
+  border-radius: 0 28px 28px 0;
+  font-size: 1.07rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+#newsletterForm button:hover {
+  background: #50b30c;
+}
+.social-icons {
+  display: flex;
+  gap: 16px;
+}
+.social-icon img {
+  width: 32px;
+  height: 32px;
+  background: #fff;
+  border-radius: 50%;
+  padding: 6px;
+  transition: background 0.2s;
+}
+.social-icon img:hover {
+  background: #1a73e8;
+}

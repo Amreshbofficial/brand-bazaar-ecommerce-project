@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smartphone Z Pro - Brand Bazaar</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      /* Existing styles remain */
+      .spec-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 1.05rem;
+      }
+      .spec-table th,
+      .spec-table td {
+        border: 1px solid #e0e0e0;
+        padding: 10px 15px;
+        text-align: left;
+      }
+      .spec-table th {
+        background-color: #f0f4ff;
+        color: #0a45a6;
+        width: 30%; /* Adjust as needed */
+        font-weight: 600;
+      }
+      .spec-table td {
+        background-color: #fff;
+        color: #333;
+      }
+
+      .reviews-section {
+        margin-top: 2.5rem;
+      }
+      .review-card {
+        background: #fdfdfd;
+        border: 1px solid #e8f0ff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 1px 6px rgba(10, 69, 166, 0.05);
+      }
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .reviewer-name {
+        font-weight: 700;
+        color: #0a45a6;
+        font-size: 1.1rem;
+      }
+      .review-rating {
+        color: #ffb300;
+        font-size: 1.1rem;
+      }
+      .review-text {
+        color: #444;
+        line-height: 1.6;
+        font-size: 1rem;
+      }
+      .review-date {
+        font-size: 0.85rem;
+        color: #777;
+        margin-top: 8px;
+        text-align: right;
+      }
+
+      .faq-section {
+        margin-top: 2.5rem;
+      }
+      .faq-item {
+        background: #fdfdfd;
+        border: 1px solid #e8f0ff;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        overflow: hidden;
+      }
+      .faq-question {
+        padding: 15px 20px;
+        background-color: #f0f4ff;
+        color: #0a45a6;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.05rem;
+      }
+      .faq-answer {
+        padding: 0 20px;
+        background-color: #fff;
+        color: #444;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        font-size: 1rem;
+      }
+      .faq-answer p {
+        padding-bottom: 15px; /* Add padding to content within */
+      }
+      .faq-item.active .faq-answer {
+        max-height: 200px; /* Adjust as needed for content */
+        padding: 15px 20px;
+      }
+      .faq-item.active .faq-question i {
+        transform: rotate(180deg);
+      }
+      .faq-question i {
+        transition: transform 0.3s ease;
+      }
+
+      /* Styles for delivery estimate and availability */
+      .delivery-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 1.4rem;
+        font-size: 1.05rem;
+        color: #333;
+      }
+      .delivery-info span {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .delivery-info .icon {
+        color: #0a45a6;
+      }
+      .in-stock {
+        color: #04c46a;
+        font-weight: 600;
+      }
+      .low-stock {
+        color: #ffb300;
+        font-weight: 600;
+      }
+      .out-of-stock {
+        color: #d32f2f;
+        font-weight: 600;
+      }
+
+      /* NEW STYLES FOR IMAGE GALLERY */
+      .product-image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .main-product-img {
+        width: 100%;
+        max-width: 340px;
+        border-radius: 16px;
+        box-shadow: 0 2px 14px rgba(0, 0, 0, 0.11);
+        margin-bottom: 1.5rem;
+        transition: transform 0.2s ease-in-out; /* Smooth transition on image change */
+      }
+
+      .thumbnail-gallery {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        justify-content: center; /* Center thumbnails */
+        gap: 10px;
+        margin-top: 15px; /* Space between main image and thumbnails */
+      }
+
+      .thumbnail-gallery img {
+        width: 60px; /* Size of thumbnails */
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid transparent; /* Default border */
+        cursor: pointer;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .thumbnail-gallery img:hover {
+        border-color: #0a45a6; /* Highlight on hover */
+        transform: scale(1.05); /* Slightly enlarge on hover */
+      }
+
+      .thumbnail-gallery img.active-thumbnail {
+        border-color: #0a45a6; /* Active thumbnail highlight */
+        box-shadow: 0 0 8px rgba(10, 69, 166, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a href="../index.html" class="brand"
+          ><i class="fas fa-gem"></i> Brand Bazaar</a
+        >
+        <button class="nav-toggle" id="navToggle" aria-label="Open Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="navLinks">
+          <a href="../index.html">Home</a>
+          <a href="#">Deals</a>
+          <a href="#">New Arrivals</a>
+          <a href="#">Trending</a>
+          <a href="#">Contact</a>
+          <div class="dropdown">
+            <button class="dropbtn" aria-haspopup="true">
+              <i class="fas fa-th-large"></i> Categories
+              <i class="fas fa-angle-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="#category-laptops" class="category-link">Laptops</a>
+              <a href="#category-mobiles" class="category-link">Mobiles</a>
+              <a href="#category-gadgets" class="category-link">Gadgets</a>
+              <a href="#category-fashion" class="category-link">Fashion</a>
+              <a href="#category-audio" class="category-link">Audio</a>
+              <a href="#category-shoes" class="category-link">Shoes</a>
+            </div>
+          </div>
+        </div>
+        <div class="nav-icons">
+          <a href="#" class="nav-icon" id="profileIcon">
+            <i class="fas fa-user"></i>
+          </a>
+          <a href="../cart.html" class="nav-icon cart" id="cartIcon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCounter">0</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section
+        class="section section-white"
+        style="max-width: 900px; margin: 2.5rem auto"
+      >
+        <div style="display: flex; flex-wrap: wrap; gap: 2.5rem">
+          <div
+            class="product-image-container"
+            style="
+              flex: 1 1 320px;
+              min-width: 280px;
+              max-width: 360px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            "
+          >
+            <img
+              src="https://images.unsplash.com/photo-1605291240090-e547072f53d8?auto=format&fit=crop&w=640&q=80"
+              alt="Smartphone Z Pro"
+              class="main-product-img"
+              id="mainProductImage"
+            />
+
+            <div class="thumbnail-gallery" id="thumbnailGallery"></div>
+
+            <span
+              class="badge hot"
+              style="margin-top: 1.5rem; margin-bottom: 10px"
+              >NEW</span
+            >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                margin-bottom: 7px;
+              "
+            >
+              <span
+                class="product-rating"
+                style="color: #ffb300; font-size: 1.2rem"
+                ><i class="fas fa-star"></i> 4.8</span
+              >
+              <span style="color: #888; font-size: 1rem">(150 ratings)</span>
+            </div>
+          </div>
+          <div style="flex: 2 1 350px; min-width: 290px">
+            <h1 style="font-size: 2.1rem; margin: 0 0 10px 0; color: #0a45a6">
+              Smartphone Z Pro
+            </h1>
+            <div class="news-meta" style="margin-bottom: 8px">
+              <span class="product-price" style="font-size: 1.25rem"
+                >₹79999</span
+              >
+              <span
+                style="
+                  background: #04c46a;
+                  color: #fff;
+                  border-radius: 8px;
+                  padding: 3px 12px;
+                  font-size: 1rem;
+                  margin-left: 10px;
+                "
+                >Free Delivery</span
+              >
+              <span
+                style="
+                  background: #ffb300;
+                  color: #222;
+                  border-radius: 8px;
+                  padding: 3px 12px;
+                  font-size: 1rem;
+                  margin-left: 10px;
+                "
+                >Launch Offer</span
+              >
+            </div>
+            <ul
+              style="
+                padding-left: 18px;
+                margin-bottom: 1.3rem;
+                font-size: 1.09rem;
+                line-height: 1.7;
+              "
+            >
+              <li>6.7-inch ProMotion XDR Display, 120Hz Adaptive Refresh</li>
+              <li>A18 Bionic Chip, 8GB RAM, 256GB Internal Storage</li>
+              <li>Triple 50MP Camera System with Cinematic Mode</li>
+              <li>5000mAh Battery with 65W SuperVOOC Charging</li>
+              <li>IP68 Water & Dust Resistance, Titanium Frame</li>
+              <li>5G, Wi-Fi 7, Bluetooth 5.4, USB-C 4.0</li>
+              <li>Face ID & In-display Fingerprint Sensor</li>
+              <li>Android 15 with BrandUI 6.0</li>
+            </ul>
+            <div
+              style="
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+                align-items: center;
+                margin-bottom: 1.1rem;
+              "
+            >
+              <button
+                class="btn-sm btn-add-cart"
+                id="addToCartBtn"
+                style="min-width: 140px"
+              >
+                Add to Cart
+              </button>
+              <button
+                class="btn-sm btn-buy"
+                id="buyNowBtn"
+                style="min-width: 140px"
+              >
+                Buy Now
+              </button>
+              <span style="color: #0a45a6; font-size: 0.97rem"
+                ><i class="fas fa-shield-alt"></i> 1 Year Manufacturer
+                Warranty</span
+              >
+            </div>
+
+            <div class="delivery-info">
+              <span>
+                <i class="fas fa-truck icon"></i>
+                <span id="deliveryEstimate">Calculating delivery...</span>
+              </span>
+              <span>
+                <i class="fas fa-box-open icon"></i>
+                <span id="stockStatus">Checking stock...</span>
+              </span>
+              <span>
+                <i class="fas fa-map-marker-alt icon"></i>
+                <span
+                  >Enter Pincode for exact delivery date:
+                  <input
+                    type="text"
+                    id="pincodeInput"
+                    placeholder="e.g., 400001"
+                    style="
+                      padding: 5px;
+                      border: 1px solid #ccc;
+                      border-radius: 4px;
+                      width: 100px;
+                    "
+                  />
+                  <button
+                    id="checkPincodeBtn"
+                    style="
+                      background: #0a45a6;
+                      color: white;
+                      border: none;
+                      border-radius: 4px;
+                      padding: 5px 10px;
+                      cursor: pointer;
+                    "
+                  >
+                    Check
+                  </button>
+                </span>
+              </span>
+            </div>
+            <div style="font-size: 1.09rem; color: #333; margin-bottom: 1.4rem">
+              <b>Special offer:</b> Exchange your old smartphone for up to
+              ₹20000 off!
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 2.5rem">
+          <h2 style="font-size: 1.3rem; color: #0a45a6">Product Description</h2>
+          <p style="color: #444; font-size: 1.08rem">
+            The **Smartphone Z Pro** is the epitome of mobile innovation,
+            combining groundbreaking performance with a stunning design. Power
+            through your day with the advanced A18 Bionic Chip, capture
+            breathtaking photos and videos with the versatile triple 50MP camera
+            system, and immerse yourself in the vibrant 6.7-inch ProMotion XDR
+            Display. With a durable titanium frame and IP68 rating, it's built
+            to last. Experience lightning-fast charging and seamless
+            connectivity.
+          </p>
+          <ul style="padding-left: 18px; color: #444; font-size: 1.08rem">
+            <li>Unmatched performance for gaming and multitasking</li>
+            <li>Professional-grade photography and videography features</li>
+            <li>Enhanced security with Face ID and in-display fingerprint</li>
+          </ul>
+          <p style="color: #444; font-size: 1.08rem">
+            Shop with confidence at Brand Bazaar. All products are 100% original
+            and covered by warranty.
+          </p>
+        </div>
+
+        <hr
+          style="margin: 2.5rem 0; border: none; border-top: 1px solid #eee"
+        />
+
+        <div class="technical-specs-section">
+          <h2 style="font-size: 1.3rem; color: #0a45a6">
+            Technical Specifications
+          </h2>
+          <table class="spec-table">
+            <tr>
+              <th>Display</th>
+              <td>
+                6.7-inch ProMotion XDR (2796x1290) OLED, 120Hz Adaptive Refresh,
+                2000 nits Peak Brightness
+              </td>
+            </tr>
+            <tr>
+              <th>Processor</th>
+              <td>
+                A18 Bionic Chip (6-core CPU, 5-core GPU, 16-core Neural Engine)
+              </td>
+            </tr>
+            <tr>
+              <th>RAM</th>
+              <td>8GB LPDDR5X</td>
+            </tr>
+            <tr>
+              <th>Storage</th>
+              <td>256GB NVMe Internal Storage</td>
+            </tr>
+            <tr>
+              <th>Rear Camera</th>
+              <td>
+                Triple 50MP (Wide, Ultrawide, Telephoto) with Sensor-shift OIS,
+                LiDAR Scanner
+              </td>
+            </tr>
+            <tr>
+              <th>Front Camera</th>
+              <td>12MP TrueDepth Camera with Autofocus</td>
+            </tr>
+            <tr>
+              <th>Battery</th>
+              <td>
+                5000mAh, 65W SuperVOOC Fast Charging, 15W Wireless Charging
+              </td>
+            </tr>
+            <tr>
+              <th>Operating System</th>
+              <td>Android 15 with BrandUI 6.0</td>
+            </tr>
+            <tr>
+              <th>Connectivity</th>
+              <td>
+                5G (Sub-6 GHz & mmWave), Wi-Fi 7 (802.11be), Bluetooth 5.4, NFC
+              </td>
+            </tr>
+            <tr>
+              <th>Ports</th>
+              <td>USB-C 4.0</td>
+            </tr>
+            <tr>
+              <th>Durability</th>
+              <td>
+                IP68 Water & Dust Resistance, Ceramic Shield Front Cover,
+                Titanium Frame
+              </td>
+            </tr>
+            <tr>
+              <th>Security</th>
+              <td>Face ID, In-display Fingerprint Sensor</td>
+            </tr>
+          </table>
+        </div>
+
+        <hr
+          style="margin: 2.5rem 0; border: none; border-top: 1px solid #eee"
+        />
+
+        <div class="reviews-section">
+          <h2 style="font-size: 1.3rem; color: #0a45a6">Customer Reviews</h2>
+          <div id="customerReviews"></div>
+          <button
+            class="btn-sm"
+            style="
+              background: #0a45a6;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              padding: 8px 18px;
+              font-weight: 600;
+              margin-top: 15px;
+              cursor: pointer;
+            "
+          >
+            Write a Review
+          </button>
+        </div>
+
+        <hr
+          style="margin: 2.5rem 0; border: none; border-top: 1px solid #eee"
+        />
+
+        <div class="faq-section">
+          <h2 style="font-size: 1.3rem; color: #0a45a6">
+            Frequently Asked Questions
+          </h2>
+          <div id="faqContainer"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="footer">
+      <p>
+        &copy; 2025 Brand Bazaar. All rights reserved. |
+        <a href="#">Privacy Policy</a>
+      </p>
+    </footer>
+    <div id="toast"></div>
+    <nav class="mobile-bottom-nav">
+      <a href="../index.html" class="mbnav-item" aria-label="Home"
+        ><i class="fas fa-home"></i><span>Home</span></a
+      >
+      <a href="#" class="mbnav-item" aria-label="Categories"
+        ><i class="fas fa-th-large"></i><span>Categories</span></a
+      >
+      <a href="#" class="mbnav-item" id="mbnavSearch" aria-label="Search"
+        ><i class="fas fa-search"></i><span>Search</span></a
+      >
+      <a href="../cart.html" class="mbnav-item" id="mbnavCart" aria-label="Cart"
+        ><i class="fas fa-shopping-cart"></i><span>Cart</span
+        ><span class="cart-count" id="cartCounterMobile">0</span></a
+      >
+      <a href="#" class="mbnav-item" id="mbnavProfile" aria-label="Profile"
+        ><i class="fas fa-user"></i><span>Profile</span></a
+      >
+    </nav>
+
+    <script>
+      // PRODUCT DATA - More detailed data for the Smartphone Z Pro
+      const product = {
+        name: "Smartphone Z Pro",
+        price: 79999, // Price in INR
+        rating: 4.8,
+        numRatings: 150,
+        badge: "NEW",
+        badgeClass: "new",
+        img: "https://images.unsplash.com/photo-1605291240090-e547072f53d8?auto=format&fit=crop&w=640&q=80", // Main initial image
+        gallery: [
+          "https://images.unsplash.com/photo-1605291240090-e547072f53d8?auto=format&fit=crop&w=640&q=80", // Front view
+          "https://images.unsplash.com/photo-1594982635677-2e118837e283?auto=format&fit=crop&w=640&q=80", // Back view
+          "https://images.unsplash.com/photo-1606834069818-f076b6a22c36?auto=format&fit=crop&w=640&q=80", // Angled view
+          "https://images.unsplash.com/photo-1563861825227-220023a41c2a?auto=format&fit=crop&w=640&q=80", // Camera detail
+          "https://images.unsplash.com/photo-1587520448206-8d6874e4c29c?auto=format&fit=crop&w=640&q=80", // In hand
+        ],
+        stock: 25, // Example: 25 units in stock
+        deliveryTime: {
+          default: 3, // days
+          pincodeSpecific: {
+            400001: 2, // Mumbai
+            110001: 3, // Delhi
+            560001: 4, // Bangalore
+            700001: 5, // Kolkata
+          },
+        },
+        reviews: [
+          {
+            name: "Anjali Mehta",
+            rating: 5,
+            date: "June 18, 2025",
+            text: "This phone is a beast! The camera is unreal, battery lasts forever, and the display is just gorgeous. So smooth to use.",
+          },
+          {
+            name: "Varun Desai",
+            rating: 4,
+            date: "June 14, 2025",
+            text: "Very impressive phone. Performance is top-tier. Only small gripe is the price, but you get what you pay for. Highly recommend.",
+          },
+          {
+            name: "Sneha Reddy",
+            rating: 5,
+            date: "June 09, 2025",
+            text: "Upgraded from an old model and the difference is night and day. The screen is so bright and vibrant. Gaming is incredible.",
+          },
+          {
+            name: "Rajesh Gupta",
+            rating: 4,
+            date: "June 05, 2025",
+            text: "Solid phone. Fast charging is a lifesaver. Had a minor issue with a software update initially, but it was resolved quickly.",
+          },
+        ],
+        faqs: [
+          {
+            question: "Is the Smartphone Z Pro waterproof?",
+            answer:
+              "The Smartphone Z Pro has an IP68 rating, which means it is resistant to dust and water, and can be submerged in up to 1.5 meters of water for 30 minutes.",
+          },
+          {
+            question: "What type of SIM card does it use?",
+            answer: "It supports dual SIM (Nano-SIM and eSIM).",
+          },
+          {
+            question: "Does it come with a charger in the box?",
+            answer:
+              "No, like many modern smartphones, the charger is sold separately. However, it supports 65W SuperVOOC fast charging.",
+          },
+          {
+            question: "Can I expand the storage?",
+            answer:
+              "No, the internal storage is not expandable via a microSD card. It comes with 256GB of internal NVMe storage.",
+          },
+        ],
+      };
+
+      // --- UTILITY FUNCTIONS (mostly from your existing code or slightly adapted) ---
+      function updateCartCounter() {
+        let cart = [];
+        try {
+          cart = JSON.parse(localStorage.getItem("cart")) || [];
+        } catch {}
+        let total = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+        const cartCounter = document.getElementById("cartCounter");
+        if (cartCounter) cartCounter.textContent = total;
+        const cartMobile = document.getElementById("cartCounterMobile");
+        if (cartMobile) cartMobile.textContent = total;
+      }
+
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.style.display = "block";
+        setTimeout(() => (t.style.display = "none"), 1800);
+      }
+
+      function addToCart(productToAdd) {
+        let cart = [];
+        try {
+          cart = JSON.parse(localStorage.getItem("cart")) || [];
+        } catch {}
+        // Ensure the product in cart has consistent structure for `img` and `price` for cart.html
+        const productForCart = {
+          name: productToAdd.name,
+          price: productToAdd.price,
+          img: productToAdd.img, // Use the main image as the cart image
+        };
+
+        const idx = cart.findIndex((item) => item.name === productForCart.name);
+        if (idx > -1) cart[idx].qty += 1;
+        else cart.push({ ...productForCart, qty: 1 });
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCounter();
+      }
+
+      function getStarRating(rating) {
+        let stars = "";
+        for (let i = 0; i < 5; i++) {
+          if (i < Math.floor(rating)) {
+            stars += '<i class="fas fa-star"></i>'; // Full star
+          } else if (i < rating) {
+            stars += '<i class="fas fa-star-half-alt"></i>'; // Half star
+          } else {
+            stars += '<i class="far fa-star"></i>'; // Empty star
+          }
+        }
+        return stars;
+      }
+
+      // --- FUNCTIONS FOR REAL-TIME VIEW AND ADDITIONAL INFO ---
+
+      function updateDeliveryAndStock() {
+        const deliveryEstimateSpan =
+          document.getElementById("deliveryEstimate");
+        const stockStatusSpan = document.getElementById("stockStatus");
+
+        let deliveryMsg = `Delivery in ${product.deliveryTime.default} days`;
+        let stockMsg = "In Stock";
+        let stockClass = "in-stock";
+
+        if (product.stock === 0) {
+          stockMsg = "Out of Stock";
+          stockClass = "out-of-stock";
+          deliveryMsg = "Currently unavailable";
+        } else if (product.stock < 10) {
+          stockMsg = `Low Stock! (${product.stock} left)`;
+          stockClass = "low-stock";
+        }
+
+        deliveryEstimateSpan.textContent = deliveryMsg;
+        stockStatusSpan.textContent = stockMsg;
+        stockStatusSpan.className = stockClass; // Apply dynamic class for styling
+
+        // Handle Add to Cart / Buy Now button state based on stock
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        const buyNowBtn = document.getElementById("buyNowBtn");
+        if (product.stock === 0) {
+          addToCartBtn.disabled = true;
+          buyNowBtn.disabled = true;
+          addToCartBtn.style.opacity = 0.6;
+          buyNowBtn.style.opacity = 0.6;
+          addToCartBtn.style.cursor = "not-allowed";
+          buyNowBtn.style.cursor = "not-allowed";
+        } else {
+          addToCartBtn.disabled = false;
+          buyNowBtn.disabled = false;
+          addToCartBtn.style.opacity = 1;
+          buyNowBtn.style.opacity = 1;
+          addToCartBtn.style.cursor = "pointer";
+          buyNowBtn.style.cursor = "pointer";
+        }
+      }
+
+      function checkPincodeDelivery() {
+        const pincodeInput = document.getElementById("pincodeInput");
+        const deliveryEstimateSpan =
+          document.getElementById("deliveryEstimate");
+        const pincode = pincodeInput.value.trim();
+
+        if (pincode.length === 6 && /^\d+$/.test(pincode)) {
+          const specificDays = product.deliveryTime.pincodeSpecific[pincode];
+          if (specificDays !== undefined) {
+            deliveryEstimateSpan.textContent = `Delivery to ${pincode} in ${specificDays} days`;
+            showToast(`Delivery to ${pincode} in ${specificDays} days`);
+          } else {
+            deliveryEstimateSpan.textContent = `Delivery to ${pincode} in ${product.deliveryTime.default} days`;
+            showToast(
+              `Delivery to ${pincode} in ${product.deliveryTime.default} days`
+            );
+          }
+        } else if (pincode !== "") {
+          showToast("Please enter a valid 6-digit pincode.");
+        } else {
+          // If empty, revert to default message
+          deliveryEstimateSpan.textContent = `Delivery in ${product.deliveryTime.default} days`;
+        }
+      }
+
+      function renderReviews() {
+        const reviewContainer = document.getElementById("customerReviews");
+        if (!product.reviews || product.reviews.length === 0) {
+          reviewContainer.innerHTML =
+            "<p>No reviews yet. Be the first to review this product!</p>";
+          return;
+        }
+
+        reviewContainer.innerHTML = product.reviews
+          .map(
+            (review) => `
+          <div class="review-card">
+            <div class="review-header">
+              <span class="reviewer-name">${review.name}</span>
+              <span class="review-rating">${getStarRating(review.rating)}</span>
+            </div>
+            <p class="review-text">${review.text}</p>
+            <div class="review-date">${review.date}</div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      function renderFAQs() {
+        const faqContainer = document.getElementById("faqContainer");
+        if (!product.faqs || product.faqs.length === 0) {
+          faqContainer.innerHTML = "<p>No FAQs available for this product.</p>";
+          return;
+        }
+
+        faqContainer.innerHTML = product.faqs
+          .map(
+            (faq, index) => `
+          <div class="faq-item">
+            <div class="faq-question" id="faq-q-${index}">
+              ${faq.question} <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>${faq.answer}</p>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+
+        // Add event listeners for FAQ toggling
+        document.querySelectorAll(".faq-question").forEach((question) => {
+          question.addEventListener("click", () => {
+            const faqItem = question.closest(".faq-item");
+            faqItem.classList.toggle("active");
+          });
+        });
+      }
+
+      // NEW: Image Gallery Functions
+      function renderImageGallery() {
+        const mainImage = document.getElementById("mainProductImage");
+        const thumbnailGallery = document.getElementById("thumbnailGallery");
+
+        if (!product.gallery || product.gallery.length === 0) {
+          thumbnailGallery.style.display = "none"; // Hide if no gallery images
+          return;
+        }
+
+        // Set the initial main image from the first gallery image if available
+        mainImage.src = product.gallery[0];
+        mainImage.setAttribute("data-current-index", 0); // Keep track of current image
+
+        thumbnailGallery.innerHTML = product.gallery
+          .map(
+            (imgSrc, index) => `
+            <img src="${imgSrc}" alt="Smartphone Z Pro View ${
+              index + 1
+            }" class="thumbnail-item ${
+              index === 0 ? "active-thumbnail" : ""
+            }" data-index="${index}">
+        `
+          )
+          .join("");
+
+        // Add click listeners to thumbnails
+        thumbnailGallery
+          .querySelectorAll(".thumbnail-item")
+          .forEach((thumbnail) => {
+            thumbnail.addEventListener("click", (event) => {
+              const clickedThumbnail = event.target;
+              const newImageSrc = clickedThumbnail.src;
+              const newIndex = parseInt(clickedThumbnail.dataset.index);
+
+              // Update main image
+              mainImage.src = newImageSrc;
+              mainImage.setAttribute("data-current-index", newIndex);
+
+              // Update active thumbnail class
+              thumbnailGallery
+                .querySelectorAll(".thumbnail-item")
+                .forEach((thumb) => {
+                  thumb.classList.remove("active-thumbnail");
+                });
+              clickedThumbnail.classList.add("active-thumbnail");
+            });
+          });
+      }
+
+      // --- EVENT LISTENERS AND INITIALIZATIONS ---
+      document.addEventListener("DOMContentLoaded", function () {
+        updateCartCounter(); // Initialize cart counter
+        updateDeliveryAndStock(); // Set initial delivery and stock info
+        renderReviews(); // Render customer reviews
+        renderFAQs(); // Render FAQs
+        renderImageGallery(); // NEW: Render image gallery
+
+        document.getElementById("addToCartBtn").onclick = function () {
+          addToCart(product);
+          showToast("Added to cart!");
+        };
+
+        document.getElementById("buyNowBtn").onclick = function () {
+          addToCart(product);
+          window.location.href = "../checkout.html"; // Assuming you have a checkout.html
+        };
+
+        document.getElementById("checkPincodeBtn").onclick =
+          checkPincodeDelivery;
+
+        // Profile icon & Mobile bottom nav profile
+        var profileIcon = document.getElementById("profileIcon");
+        if (profileIcon) {
+          profileIcon.onclick = function (e) {
+            e.preventDefault();
+            window.location.href = "../profile.html";
+          };
+        }
+        var mbnavProfile = document.getElementById("mbnavProfile");
+        if (mbnavProfile) {
+          mbnavProfile.onclick = function (e) {
+            e.preventDefault();
+            window.location.href = "../profile.html";
+          };
+        }
+
+        // Hamburger mobile nav
+        var navToggle = document.getElementById("navToggle");
+        var navLinks = document.getElementById("navLinks");
+        if (navToggle && navLinks) {
+          navToggle.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
